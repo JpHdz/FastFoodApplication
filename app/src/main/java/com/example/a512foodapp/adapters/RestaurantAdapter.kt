@@ -1,5 +1,6 @@
 package com.example.a512foodapp.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,9 @@ import com.example.a512foodapp.R
 import com.example.a512foodapp.models.Restaurant
 import com.squareup.picasso.Picasso
 
-class RestaurantAdapter(val restaurantList : List<Restaurant>): RecyclerView.Adapter<RestaurantViewHolder>(){
+class RestaurantAdapter(val restaurantList : List<Restaurant>,
+                        val onClick:(Restaurant)->Unit)
+    : RecyclerView.Adapter<RestaurantViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.restaurant_item,parent,false)
         return RestaurantViewHolder(view)
@@ -25,6 +28,10 @@ class RestaurantAdapter(val restaurantList : List<Restaurant>): RecyclerView.Ada
         val restaurant = restaurantList[position]
         holder.restaurantName.text = restaurant.name
         Picasso.get().load(restaurant.image).into(holder.restaurantImage)
+        holder.itemView.setOnClickListener {
+            //Log.i("RestaurantAdapter","Presionaste el restaurante: ${restaurant.name}")
+            onClick(restaurant)
+        }
     }
 
 }

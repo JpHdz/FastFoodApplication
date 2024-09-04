@@ -42,10 +42,19 @@ class HomeActivity : AppCompatActivity() {
         categoryRecyclerView.adapter = CategoryAdapter(Category.categories)
         categoryRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
 
-        restaurantRecyclerView.adapter = RestaurantAdapter(Restaurant.restaurants)
+        restaurantRecyclerView.adapter = RestaurantAdapter(Restaurant.restaurants){ restaurant->
+            Log.i("Restaurant desde Home", restaurant.name)
+            val intent = Intent(this@HomeActivity,RestaurantActivity::class.java)
+            intent.putExtra("restaurantId",restaurant.id)
+            startActivity(intent)
+        }
         restaurantRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
 
-        foodRecyclerView.adapter = FoodAdapter(Food.foods)
+        foodRecyclerView.adapter = FoodAdapter(Food.foods){food: Food ->
+            val intent = Intent(this@HomeActivity,FoodDetailActivity::class.java)
+            intent.putExtra("foodId",food.id)
+            startActivity(intent)
+        }
         foodRecyclerView.layoutManager = GridLayoutManager(this,2)
 
         val user = User.users[1]
